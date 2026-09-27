@@ -1,0 +1,7 @@
+{
+  "private": true,
+  "description": "Pinned Node.js development tools for the Python project starter.",
+  "devDependencies": {
+    "pyright": "^1.1.414"
+  }
+}

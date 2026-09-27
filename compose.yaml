@@ -1,0 +1,10 @@
+name: starter-app
+
+services:
+  app:
+    build:
+      context: .
+    init: true
+    environment:
+      APP_ENV: ${APP_ENV:-development}
+    command: ["starter-app"]
