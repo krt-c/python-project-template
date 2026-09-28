@@ -19,6 +19,18 @@ This repository is a generic Python application starter. Replace its example pac
 - Add a concise docstring to each class and function describing its purpose and meaningful inputs, outputs, side effects, or errors.
 - Prefer explicit types, conventional formatting, and descriptive names.
 
+## Local skills
+
+- Read `.agents/skills/python-clean-architecture/SKILL.md` when a change introduces meaningful domain rules, application workflows, or external adapters.
+- Read `.agents/skills/python-solid-principles/SKILL.md` when designing or reviewing non-trivial classes, contracts, or service boundaries.
+- Keep these skills as guidance for judgment, not mandatory layers or abstractions for every project.
+
+## Local skills
+
+- Read `.agents/skills/python-clean-architecture/SKILL.md` when a change introduces meaningful domain rules, application workflows, or external adapters.
+- Read `.agents/skills/python-solid-principles/SKILL.md` when designing or reviewing non-trivial classes, contracts, or service boundaries.
+- Keep these skills as guidance for judgment, not mandatory layers or abstractions for every project.
+
 ## Tests and checks
 
 - Add focused unit tests with behavior changes. Keep ordinary tests deterministic and offline; use fakes and fixtures for external boundaries.

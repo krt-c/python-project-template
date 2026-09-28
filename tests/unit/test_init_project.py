@@ -23,11 +23,16 @@ SCRIPT_FILES = (
     Path("scripts/models.py"),
     Path("scripts/init_project.py"),
 )
+AGENT_FILES = (
+    Path("AGENTS.md"),
+    Path(".agents/skills/python-clean-architecture/SKILL.md"),
+    Path(".agents/skills/python-solid-principles/SKILL.md"),
+)
 
 
 def copy_template_files(destination: Path) -> Path:
     """Copy only initializer inputs into a temporary project directory."""
-    for relative_path in (*collect_text_files(PROJECT_ROOT), *SCRIPT_FILES):
+    for relative_path in (*collect_text_files(PROJECT_ROOT), *SCRIPT_FILES, *AGENT_FILES):
         destination_path = destination / relative_path
         destination_path.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy2(PROJECT_ROOT / relative_path, destination_path)
@@ -88,6 +93,8 @@ def test_initialize_project_updates_names_across_the_template(tmp_path: Path) ->
     assert "# Quality Toolkit" in readme
     assert "scripts.init_project" not in readme
     assert npm_lock_data["name"] == "quality-toolkit"
+    for relative_path in AGENT_FILES:
+        assert (project_root / relative_path).is_file()
     for layer_name in ("domain", "application", "infrastructure", "presentation", "bootstrap"):
         assert (project_root / "src" / "quality_toolkit" / layer_name).is_dir()
 

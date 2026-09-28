@@ -84,6 +84,10 @@ src/starter_app/
 
 Dependencies point inward: presentation and infrastructure may depend on application and domain; application may depend on domain; domain stays independent. Put concrete wiring in `bootstrap`. Keep the scaffold small and add modules only when the project needs them.
 
+## Agent guidance
+
+`AGENTS.md` contains repository-wide instructions for coding agents. The reusable skills in `.agents/skills/` provide focused guidance on Clean Architecture and SOLID; use them when the change involves meaningful architecture or design decisions. The initializer leaves these files in place for the new project.
+
 ## Customize for a new project
 
 1. Run the project initializer before adding application code.
