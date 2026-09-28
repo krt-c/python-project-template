@@ -1,4 +1,4 @@
-"""Small example application behavior used by the starter CLI."""
+"""Pure greeting rule used by the starter example."""
 
 
 def format_greeting(name: str) -> str:

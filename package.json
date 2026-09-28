@@ -1,6 +1,7 @@
 {
+  "name": "starter-app",
   "private": true,
-  "description": "Pinned Node.js development tools for the Python project starter.",
+  "description": "Pinned Node.js development tools.",
   "devDependencies": {
     "pyright": "^1.1.414"
   }

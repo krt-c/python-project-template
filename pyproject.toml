@@ -17,7 +17,7 @@ dev = [
 ]
 
 [project.scripts]
-starter-app = "starter_app.cli:main"
+starter-app = "starter_app.bootstrap.main:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
@@ -25,11 +25,11 @@ namespaces = false
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-pythonpath = ["src"]
+pythonpath = ["src", "."]
 addopts = "-ra"
 markers = [
     "integration: exercises multiple local components together",
-    "live: opt-in test that contacts a real external service",
+    "live: test that contacts a real external service",
 ]
 
 [tool.ruff]
@@ -40,7 +40,7 @@ target-version = "py312"
 select = ["E", "F", "I", "B", "UP"]
 
 [tool.pyright]
-include = ["src", "tests"]
+include = ["src", "scripts", "tests"]
 exclude = [".venv", "build", "dist"]
 extraPaths = ["src"]
 pythonVersion = "3.12"

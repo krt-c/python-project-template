@@ -1,8 +1,15 @@
 # Python Project Starter
 
-A small, runnable Python project template with a `src/` package, unit and integration test folders, locked `uv` dependencies, static checks, and Docker support.
+A small, runnable Python project template with a Clean Architecture package scaffold, unit and integration test folders, locked `uv` dependencies, static checks, and Docker support.
 
-The starter command prints a greeting so a clean checkout can be installed and run immediately. Replace `starter_app` and `starter-app` with your package and command names when creating a project.
+The `starter-app` command prints a greeting. To initialize a project with consistent package, command, Docker, and documentation names, run:
+
+```powershell
+uv run python -m scripts.init_project --name "Example Project"
+```
+
+Pass `--dry-run` to preview the changes before writing them.
+The name may contain letters and numbers separated by single spaces, hyphens, or underscores, and must start with a letter.
 
 ## Requirements
 
@@ -45,7 +52,11 @@ uv build
 
 On macOS/Linux, use `npm exec -- pyright` for the type check.
 
-Tests are local and deterministic. Keep network or service smoke tests separately marked and opt-in.
+Tests are local and deterministic. `@pytest.mark.live` labels tests that contact a real external service; `uv run --locked --extra dev pytest -m live` selects those tests. The marker alone does not exclude them from the default `pytest` run.
+
+## Continuous integration
+
+GitHub Actions runs the tests, Ruff checks, Pyright, and package build on the minimum supported Python version and a newer version. It also installs the package in editable mode with pip and runs the tests again. Adjust the CI version matrix when the project's supported Python range changes.
 
 ## Docker
 
@@ -58,13 +69,27 @@ docker compose run --rm app
 
 The image runs as a non-root user and installs only locked runtime dependencies. For a web service or worker, update the image command, Compose ports, and health check to match that application.
 
+## Source package structure
+
+The initializer renames the package under `src/`; its layers are already scaffolded:
+
+```text
+src/starter_app/
+├── domain/          # Core rules and models; no framework or external-service imports
+├── application/     # Use cases and the inward-facing contracts they need
+├── infrastructure/  # Database, network, filesystem, and other external adapters
+├── presentation/    # CLI, web, and other input/output adapters
+└── bootstrap/       # Composition roots that wire adapters to use cases
+```
+
+Dependencies point inward: presentation and infrastructure may depend on application and domain; application may depend on domain; domain stays independent. Put concrete wiring in `bootstrap`. Keep the scaffold small and add modules only when the project needs them.
+
 ## Customize for a new project
 
-1. Rename `src/starter_app/` and update the imports and module command.
-2. Update the project name, description, Python support range, and console script in `pyproject.toml`.
-3. Update the `starter-app` command in `Dockerfile`, tests, and documentation.
-4. Regenerate `uv.lock` with `uv lock` after changing dependencies or project metadata; regenerate `package-lock.json` after changing `package.json`.
-5. Keep tests under `tests/unit/` and `tests/integration/`. Use fakes and fixtures for ordinary tests.
-6. Add application-specific configuration to `.env.example`; Compose reads a copied `.env` file for interpolation, while the Python app does not load `.env` automatically. Keep `.env` values and credentials out of Git.
+1. Run the project initializer before adding application code.
+2. Update the description and Python support range in `pyproject.toml` as needed.
+3. Add dependencies with `uv add`; regenerate the lockfile with `uv lock` after changing metadata or dependencies.
+4. Keep tests under `tests/unit/` and `tests/integration/`. Use fakes and fixtures for ordinary tests.
+5. Add application-specific configuration to `.env.example`; Compose reads a copied `.env` file for interpolation, while the Python app does not load `.env` automatically. Keep `.env` values and credentials out of Git.
 
-Small projects can keep a simple package structure. Add subpackages for domain rules, application workflows, external adapters, presentation, or dependency wiring only when those boundaries help the project.
+The starter includes the five layer packages. Add modules within them as the project needs them; avoid adding extra layers or abstractions without a clear responsibility.
